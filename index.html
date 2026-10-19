@@ -1,0 +1,1277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Wedding Planning Kit | Rule Creative Co</title>
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+/* Layout: a contact-sheet planner. Masthead, a tab strip of tools, and each tool split into a form column and a live result column. */
+:root{
+  --bg:#f1f3f0; --surface:#ffffff; --sunken:#e8ebe7; --ink:#1b2321; --muted:#59645f; --line:#d5dad5;
+  --accent:#a35f17; --accent-ink:#ffffff; --accent-soft:#f5e7d4;
+  --pine:#2c5a51; --pine-soft:#dde9e5; --dusk:#55538c; --dusk-soft:#e5e4f2; --warn:#9b3a28; --warn-soft:#f6e1db;
+  --display:"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121615; --surface:#1a201e; --sunken:#151a19; --ink:#e6eae6; --muted:#9aa5a0; --line:#2c3431;
+  --accent:#e4a35a; --accent-ink:#1a1206; --accent-soft:#3a2b19;
+  --pine:#86c0b3; --pine-soft:#1f322e; --dusk:#aeacdf; --dusk-soft:#26253d; --warn:#ec937f; --warn-soft:#3a201a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121615; --surface:#1a201e; --sunken:#151a19; --ink:#e6eae6; --muted:#9aa5a0; --line:#2c3431;
+  --accent:#e4a35a; --accent-ink:#1a1206; --accent-soft:#3a2b19;
+  --pine:#86c0b3; --pine-soft:#1f322e; --dusk:#aeacdf; --dusk-soft:#26253d; --warn:#ec937f; --warn-soft:#3a201a; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+*{box-sizing:border-box}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+.welcome{display:grid;gap:10px;background:var(--accent-soft);border-radius:var(--r);padding:16px 18px;margin-bottom:18px;font-size:16px;font-weight:500}
+.mast{display:grid;gap:10px;padding-block:8px 22px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0}
+h1{font-family:var(--display);font-weight:500;font-size:clamp(34px,6vw,58px);line-height:1.02;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--accent)}
+.lede{max-width:62ch;color:var(--muted);margin:0;font-size:16px}
+h2{font-family:var(--display);font-weight:500;font-size:28px;margin:0;line-height:1.15;text-wrap:balance}
+h3{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:0;color:var(--muted)}
+p{margin:0}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;overflow-x:auto;padding-block:10px;margin-bottom:22px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font:inherit;font-weight:600;font-size:14px;color:var(--muted);background:none;border:1px solid transparent;border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--ink);background:var(--sunken)}
+.tab[aria-selected="true"]{color:var(--accent-ink);background:var(--accent)}
+.tab:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sect-head{display:grid;gap:6px;margin-bottom:20px;max-width:70ch}
+.sect-head p{color:var(--muted)}
+.split{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:820px){.split{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:16px;min-width:0}
+.fld{display:grid;gap:6px;min-width:0}
+.fld>label,.fld>.lab{font-size:13px;font-weight:600}
+.hint{font-size:12.5px;color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:420px){.row2{grid-template-columns:1fr}}
+input[type=text],input[type=time],input[type=date],input[type=number],input[type=email],select,textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;min-width:0}
+textarea{resize:vertical;min-height:72px;line-height:1.45}
+input[type=time],input[type=number]{font-family:var(--mono);font-size:14px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg label{position:relative;cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:inline-block;font-size:13.5px;font-weight:500;border:1px solid var(--line);border-radius:999px;padding:6px 12px;background:var(--bg)}
+.seg input:checked+span{background:var(--pine);border-color:var(--pine);color:var(--surface);font-weight:600}
+.seg input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.check{display:flex;gap:9px;align-items:flex-start;font-size:14px;cursor:pointer}
+.check input{margin-top:3px;accent-color:var(--pine);width:16px;height:16px;flex:none}
+.btn{font:inherit;font-weight:600;font-size:14px;border-radius:8px;padding:9px 16px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.btn:hover{background:var(--sunken)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.small{padding:5px 10px;font-size:13px}
+.btn.ghost{border-color:transparent;background:none;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;gap:6px;align-items:baseline;font-size:13px;border-radius:999px;padding:5px 12px;background:var(--sunken);border:1px solid var(--line)}
+.chip b{font-family:var(--mono);font-weight:500;font-variant-numeric:tabular-nums}
+.chip.sun{background:var(--accent-soft);border-color:transparent}
+.chip.cov{background:var(--pine-soft);border-color:transparent}
+.note{border-radius:var(--r);padding:12px 14px;font-size:14px;display:grid;gap:4px}
+.note.warn{background:var(--warn-soft);color:var(--ink)}
+.note.warn strong{color:var(--warn)}
+.note.good{background:var(--pine-soft)}
+.note.good strong{color:var(--pine)}
+.note.sun{background:var(--accent-soft)}
+.note.sun strong{color:var(--accent)}
+.out{display:grid;gap:16px;min-width:0}
+
+/* day strip */
+.strip-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 10px;overflow-x:auto}
+.strip{position:relative;min-width:560px}
+.lane{position:relative;height:30px;margin-bottom:6px;background:var(--sunken);border-radius:6px}
+.lane-lab{font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:0 0 4px}
+.blk{position:absolute;top:3px;bottom:3px;border-radius:4px;font-size:10.5px;line-height:24px;padding:0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--surface);font-weight:600}
+.k-photo{background:var(--pine)}
+.k-break{background:var(--muted)}
+.k-travel{background:repeating-linear-gradient(135deg,var(--muted) 0 4px,transparent 4px 8px);color:var(--ink)}
+.k-light{background:var(--accent);color:var(--accent-ink)}
+.k-ceremony{background:var(--dusk)}
+.k-event{background:var(--dusk-soft);color:var(--ink);border:1px solid var(--dusk)}
+.ticks{position:relative;height:18px;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.marker{position:absolute;top:0;bottom:18px;width:0;border-left:2px dashed var(--accent);pointer-events:none}
+.marker.end{border-left-color:var(--warn)}
+.marker i{position:absolute;top:-2px;left:4px;font-style:normal;font-family:var(--mono);font-size:10px;color:var(--accent);background:var(--surface);padding:0 3px;white-space:nowrap}
+.marker.end i{color:var(--warn)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+/* timeline list */
+.tl{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.tl li{display:grid;grid-template-columns:86px 10px minmax(0,1fr);gap:12px;padding:12px 16px;border-top:1px solid var(--line)}
+.tl li:first-child{border-top:0}
+.tl .tm{font-family:var(--mono);font-size:13.5px;font-variant-numeric:tabular-nums;padding-top:1px;white-space:nowrap}
+.tl .dot{width:10px;height:10px;border-radius:50%;margin-top:6px}
+.tl .ttl{font-weight:600}
+.tl .meta{font-size:12.5px;color:var(--muted);font-family:var(--mono)}
+.tl .tip{font-size:13.5px;color:var(--muted);margin-top:3px}
+.tl li.after{opacity:.55}
+.tl li.lightrow{background:var(--accent-soft)}
+.tag{display:inline-block;font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:1px;background:var(--warn-soft);color:var(--warn)}
+@media (max-width:480px){.tl li{grid-template-columns:70px minmax(0,1fr)}.tl .dot{display:none}}
+
+/* family */
+.sides{display:grid;gap:16px}
+.side-title{font-family:var(--display);font-size:21px;font-weight:500}
+.groups{list-style:none;margin:0;padding:0;counter-reset:g;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.groups li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;padding:11px 14px;border-top:1px solid var(--line);align-items:start}
+.groups li:first-child{border-top:0}
+.groups .n{font-family:var(--mono);font-size:13px;color:var(--accent);padding-top:2px;font-variant-numeric:tabular-nums}
+.groups .who{font-size:13px;color:var(--muted)}
+.groups .gnote{font-size:12.5px;color:var(--pine);margin-top:2px}
+.groups .sec{grid-column:1/-1;font-size:11.5px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--sunken);padding:6px 14px;margin:0 -14px}
+.groups li.secrow{padding:0 14px;border-top:1px solid var(--line)}
+.meter{height:8px;background:var(--sunken);border-radius:99px;overflow:hidden}
+.meter>i{display:block;height:100%;background:var(--pine);border-radius:99px}
+.meter.over>i{background:var(--warn)}
+.addrow{display:flex;gap:8px}
+.addrow input{flex:1}
+
+/* shots */
+.shotgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.shotcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:10px;align-content:start}
+
+/* light */
+.light-hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.lt{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:2px}
+.lt .big{font-family:var(--display);font-size:38px;line-height:1.1;font-variant-numeric:tabular-nums}
+.lt.sunset{background:var(--accent-soft);border-color:transparent}
+.lt.sunset .big{color:var(--accent)}
+.lt.blue{background:var(--dusk-soft);border-color:transparent}
+.lt.blue .big{color:var(--dusk)}
+.months{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;align-items:end;height:150px;padding-top:8px}
+.mo{display:grid;gap:4px;justify-items:center;align-content:end;height:100%;min-width:0}
+.mo i{display:block;width:70%;background:var(--accent);opacity:.35;border-radius:3px 3px 0 0}
+.mo.cur i{opacity:1}
+.mo b{font-family:var(--mono);font-weight:500;font-size:10px;color:var(--muted);white-space:nowrap}
+.mo span{font-size:11px;color:var(--muted)}
+.months-wrap{overflow-x:auto}
+.months-wrap .months{min-width:430px}
+
+.tipgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px;align-items:start}
+.tipcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:grid;gap:12px;min-width:0}
+.tipcard h3{font-family:var(--display);font-size:22px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink)}
+.tipcard ul{margin:0;padding-left:18px;display:grid;gap:10px}
+.tipcard li{font-size:14.5px;line-height:1.5}
+.tipcard li::marker{color:var(--accent)}
+.tipcard b{font-weight:600}
+/* send */
+pre.sum{white-space:pre-wrap;word-break:break-word;font-family:var(--mono);font-size:12.5px;line-height:1.55;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:0;max-height:520px;overflow:auto}
+.addr{font-family:var(--mono);font-size:15px;user-select:all;background:var(--sunken);padding:4px 8px;border-radius:6px}
+.toast{font-size:13px;color:var(--pine);font-weight:600;min-height:1.2em}
+.tool-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.tool-card{text-align:left;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;cursor:pointer;display:grid;gap:4px}
+.tool-card:hover{border-color:var(--accent)}
+.tool-card b{font-family:var(--display);font-size:19px;font-weight:500}
+.tool-card span{font-size:13.5px;color:var(--muted)}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13.5px}
+@media (prefers-reduced-motion:no-preference){.tab,.btn,.tool-card{transition:background .15s,border-color .15s,color .15s}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="mast">
+    <p class="eyebrow" id="studio">Rule Creative Co - Wedding Planning Kit</p>
+    <h1>Your wedding day, <em>planned together</em></h1>
+    <p class="lede">Fill in what you know and everything updates as you type. Your answers save in this browser, so you can come back later. When you're done, the last tab gets it all back to us.</p>
+    <p class="lede">We are SO excited for your special day and welcome you to reach out if you have any questions or need ANYTHING!!</p>  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Planning tools">
+    <button class="tab" role="tab" data-tab="start">Start here</button>
+    <button class="tab" role="tab" data-tab="firstlook">First look quiz</button>
+    <button class="tab" role="tab" data-tab="ceremony">Ceremony time</button>
+    <button class="tab" role="tab" data-tab="timeline">Timeline</button>
+    <button class="tab" role="tab" data-tab="family">Family formals</button>
+    <button class="tab" role="tab" data-tab="light">Sunset &amp; light</button>
+    <button class="tab" role="tab" data-tab="tips">Our tips</button>
+    <button class="tab" role="tab" data-tab="send">Send to us</button>
+  </nav>
+
+  <!-- START -->
+  <section id="p-start" data-panel="start">
+    <div class="split">
+      <div class="panel">
+        <h3>The basics</h3>
+        <div class="row2">
+          <div class="fld"><label for="b-a">Your name</label><input type="text" id="b-a" data-k="basics.a" placeholder="e.g. Maya"></div>
+          <div class="fld"><label for="b-b">Your partner's name</label><input type="text" id="b-b" data-k="basics.b" placeholder="e.g. Jordan"></div>
+        </div>
+        <div class="fld"><label for="b-date">Wedding date</label><input type="date" id="b-date" data-k="basics.date"></div>
+        <div class="fld"><label for="b-loc">Closest city to your venue</label>
+          <select id="b-loc" data-k="basics.loc"></select>
+          <span class="hint">We use this for sunset and golden hour times.</span>
+        </div>
+        <div class="row2" id="customLoc" hidden>
+          <div class="fld"><label for="b-lat">Latitude</label><input type="number" step="0.01" id="b-lat" data-k="basics.lat" placeholder="45.00"></div>
+          <div class="fld"><label for="b-lon">Longitude</label><input type="number" step="0.01" id="b-lon" data-k="basics.lon" placeholder="-93.00"></div>
+        </div>
+        <div class="fld"><label for="b-sun">Already know your sunset time? (optional)</label><input type="time" id="b-sun" data-k="basics.sunset"><span class="hint">Leave blank and we'll calculate it.</span></div>
+      </div>
+      <div class="out">
+        <div class="sect-head">
+          <h2>Your planning kit</h2>
+          <p>Start with the basics on the left, then work through each tab. Nothing is final until we talk it through together, so treat this as a strong first draft.</p>
+        </div>
+        <div class="tool-cards">
+          <button class="tool-card" data-go="firstlook"><b>First look quiz</b><span>Six questions plus your real sunset and schedule to help you decide.</span></button>
+          <button class="tool-card" data-go="ceremony"><b>Ceremony time</b><span>Find the start time that gets you the best light and an easy-flowing day.</span></button>
+          <button class="tool-card" data-go="timeline"><b>Timeline</b><span>Build your day around our recommended photo blocks, golden hour, and your coverage hours.</span></button>
+          <button class="tool-card" data-go="family"><b>Family formals</b><span>Turn your family tree into an ordered photo list your family wrangler can call out.</span></button>
+          <button class="tool-card" data-go="tips"><b>Our tips</b><span>Our biggest tips for the planning process and the day itself.</span></button>
+          <button class="tool-card" data-go="light"><b>Sunset &amp; light</b><span>See your sunset, golden hour, and blue hour for your date and place.</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIRST LOOK QUIZ -->
+  <section id="p-firstlook" data-panel="firstlook" hidden>
+    <div class="sect-head">
+      <h2>Should we do a first look?</h2>
+      <p>Six quick questions about what matters to you. We'll weigh your answers along with your actual sunset and schedule, then tell you what we'd recommend and why.</p>
+    </div>
+    <div class="split">
+      <div class="panel" id="quizForm"></div>
+      <div class="out" id="quizOut"></div>
+    </div>
+  </section>
+
+  <!-- CEREMONY TIME -->
+  <section id="p-ceremony" data-panel="ceremony" hidden>
+    <div class="sect-head">
+      <h2>What time should our ceremony start?</h2>
+      <p>We test every start time from late morning to evening against your date, sunset, first look plan, and reception. The best times put sunset photos at an easy spot in your reception and keep dinner at a normal hour.</p>
+    </div>
+    <div class="split">
+      <div class="panel">
+        <div class="fld"><span class="lab">Anything that limits your start time?</span>
+          <div class="row2">
+            <div class="fld"><label for="c-earliest">Earliest ceremony</label><input type="time" id="c-earliest" data-k="cer.earliest"></div>
+            <div class="fld"><label for="c-latest">Latest ceremony</label><input type="time" id="c-latest" data-k="cer.latest"></div>
+          </div>
+          <span class="hint">Church schedules, venue rules, or guests traveling a long way.</span>
+        </div>
+        <div class="fld"><span class="lab">We're also using</span><div class="hint" id="cerInputs"></div></div>
+      </div>
+      <div class="out" id="cerOut"></div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="p-timeline" data-panel="timeline" hidden>
+    <div class="sect-head">
+      <h2>Timeline generator</h2>
+      <p>These photo blocks already include our buffers. Change your ceremony time and the rest of the day moves with it.</p>
+    </div>
+    <div class="split">
+      <div class="panel">
+        <div class="row2">
+          <div class="fld"><label for="t-cer">Ceremony starts</label><input type="time" id="t-cer" data-k="tl.ceremony"></div>
+          <div class="fld"><label for="t-len">Ceremony length</label>
+            <select id="t-len" data-k="tl.cerLen"><option value="20">20 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">1 hour</option></select></div>
+        </div>
+        <div class="fld"><span class="lab">Photography coverage</span>
+          <div class="seg">
+            <label><input type="radio" name="pkg" value="8" data-k="tl.pkg"><span>8 hours</span></label>
+            <label><input type="radio" name="pkg" value="10" data-k="tl.pkg"><span>10 hours</span></label>
+            <label><input type="radio" name="pkg" value="other" data-k="tl.pkg"><span>Other</span></label>
+          </div>
+          <div class="fld" id="pkgOtherWrap" hidden><label for="t-pkgo">Hours of coverage</label><input type="number" min="2" max="14" step="0.5" id="t-pkgo" data-k="tl.pkgOther"></div>
+        </div>
+        <div class="fld"><span class="lab">First look?</span>
+          <div class="seg">
+            <label><input type="radio" name="fl" value="yes" data-k="tl.firstLook"><span>Yes, we're doing one</span></label>
+            <label><input type="radio" name="fl" value="no" data-k="tl.firstLook"><span>No, see each other at the aisle</span></label>
+          </div>
+          <span class="hint">We strongly recommend one. Flip this to see what it changes.</span>
+          <label class="check" id="xflWrap"><input type="checkbox" id="t-xfl" data-k="tl.extraFirstLook"> Add other first looks before ours (a parent, siblings, or the wedding party)</label>
+        </div>
+        <div class="fld"><span class="lab">Wedding party size</span>
+          <div class="seg">
+            <label><input type="radio" name="wp" value="small" data-k="tl.party"><span>Up to 4 per side</span></label>
+            <label><input type="radio" name="wp" value="large" data-k="tl.party"><span>5 or more per side</span></label>
+          </div>
+        </div>
+        <div class="fld"><span class="lab">Where are you getting ready?</span>
+          <div class="seg">
+            <label><input type="radio" name="prep" value="yes" data-k="tl.prepSame"><span>At the ceremony venue</span></label>
+            <label><input type="radio" name="prep" value="no" data-k="tl.prepSame"><span>Somewhere else</span></label>
+          </div>
+          <div class="fld" id="prepTravelWrap" hidden><label for="t-pt">Drive time from there to the ceremony (minutes)</label><input type="number" min="0" max="180" step="5" id="t-pt" data-k="tl.prepTravel"><span class="hint">Use the real drive time and add 10 minutes for loading up and parking. We'll build it into your day.</span>
+            <div class="fld" id="photoLocWrap"><span class="lab">Where should we take the first look and portraits?</span>
+              <div class="seg">
+                <label><input type="radio" name="ploc" value="prep" data-k="tl.photoLoc"><span>Where we're getting ready</span></label>
+                <label><input type="radio" name="ploc" value="ceremony" data-k="tl.photoLoc"><span>At the ceremony site</span></label>
+              </div>
+              <span class="hint">This decides whether we drive over before photos or after family formals.</span>
+            </div></div>
+        </div>
+        <div class="fld"><span class="lab">Reception at the same venue?</span>
+          <div class="seg">
+            <label><input type="radio" name="rec" value="yes" data-k="tl.recSame"><span>Yes</span></label>
+            <label><input type="radio" name="rec" value="no" data-k="tl.recSame"><span>No, a different place</span></label>
+          </div>
+          <div class="fld" id="recTravelWrap" hidden><label for="t-rt">Drive time to reception (minutes)</label><input type="number" min="0" max="180" id="t-rt" data-k="tl.recTravel"></div>
+        </div>
+        <div class="row2">
+          <div class="fld"><label for="t-ck">Social hour</label>
+            <select id="t-ck" data-k="tl.cocktail"><option value="45">45 min</option><option value="60">1 hour</option><option value="75">1 hr 15 min</option><option value="90">1 hr 30 min</option></select></div>
+          <div class="fld"><label for="t-end">Reception ends</label><input type="time" id="t-end" data-k="tl.recEnd"></div>
+        </div>
+        <div class="fld"><span class="lab">Dinner time</span>
+          <div class="seg">
+            <label><input type="radio" name="dm" value="suggest" data-k="tl.dinnerMode"><span>Suggest one for us</span></label>
+            <label><input type="radio" name="dm" value="set" data-k="tl.dinnerMode"><span>We already have one</span></label>
+          </div>
+          <div class="fld" id="dinnerWrap" hidden><label for="t-din">Dinner is served at</label><input type="time" id="t-din" data-k="tl.dinnerTime"><span class="hint">We'll size social hour to fit, with guests seated 15 minutes before your entrance.</span></div>
+          <span class="hint" id="dinnerSuggest"></span>
+        </div>
+        <div class="fld"><span class="lab">What's your plan during social hour?</span>
+          <div class="seg">
+            <label><input type="radio" name="soc" value="join" data-k="tl.social"><span>Joining our guests</span></label>
+            <label><input type="radio" name="soc" value="away" data-k="tl.social"><span>Heading off somewhere</span></label>
+          </div>
+          <div id="awayWrap" class="fld" hidden>
+            <div class="fld"><label for="t-away">Where are you going?</label><input type="text" id="t-away" data-k="tl.awayNote" placeholder="e.g. photos at the lake, a quiet moment alone, a bar crawl"></div>
+            <div class="fld"><label for="t-awaym">How long, including travel (minutes)</label><input type="number" min="5" max="180" step="5" id="t-awaym" data-k="tl.awayMins"></div>
+          </div>
+        </div>
+        <div class="fld"><span class="lab">When is your first dance?</span>
+          <div class="seg">
+            <label><input type="radio" name="fd" value="parents" data-k="tl.firstDance"><span>With the parent dances</span></label>
+            <label><input type="radio" name="fd" value="entrance" data-k="tl.firstDance"><span>Right after our entrance</span></label>
+          </div>
+          <span class="hint">Most couples pair it with the parent dances. Dancing right after you walk in also works great, since everyone is already watching.</span>
+        </div>
+        <div class="fld" style="gap:8px">
+          <label class="check"><input type="checkbox" id="t-rl" data-k="tl.receiving"> We're doing a receiving line after the ceremony</label>
+          <label class="check"><input type="checkbox" id="t-so" data-k="tl.sendoff"> We want a send-off (sparklers, bubbles, etc.)</label>
+          <label class="check"><input type="checkbox" id="t-toss" data-k="tl.toss"> We're doing a bouquet or garter toss</label>
+        </div>
+        <div class="fld"><label for="t-notes">Anything else we should plan around?</label><textarea id="t-notes" data-k="tl.notes" placeholder="Church photo rules, a surprise dance, a second location, a hard stop time..."></textarea></div>
+      </div>
+      <div class="out" id="tlOut"></div>
+    </div>
+  </section>
+
+  <!-- FAMILY -->
+  <section id="p-family" data-panel="family" hidden>
+    <div class="sect-head">
+      <h2>Family formals list</h2>
+      <p>Tell us who's who and we'll build the photo order. We start with both families together, then go side by side from the biggest group to the smallest so people can leave as they finish. Grandparents come last, so they can sit and relax until we call them up.</p>
+    </div>
+    <div class="split">
+      <div class="sides" id="sideForms"></div>
+      <div class="out" id="famOut"></div>
+    </div>
+  </section>
+
+  <!-- LIGHT -->
+  <section id="p-light" data-panel="light" hidden>
+    <div class="sect-head">
+      <h2>Sunset &amp; light</h2>
+      <p>Golden hour is our favorite light of the whole day. Here's when it happens for your date and location, and how we'd fit it in.</p>
+    </div>
+    <div class="out" id="lightOut"></div>
+  </section>
+
+  <!-- TIPS -->
+  <section id="p-tips" data-panel="tips" hidden>
+    <div class="sect-head">
+      <h2>Our biggest tips</h2>
+      <p>Here's the friendly advice we'd give our own best friends. It all comes from a lot of wedding days, and each little thing helps your day feel calmer and your photos turn out even better.</p>
+    </div>
+    <div class="tipgrid">
+      <div class="tipcard">
+        <h3>While you're planning</h3>
+        <ul>
+          <li><b>We really love a first look.</b> It gives you a quiet moment together, calmer portraits, and your whole social hour with your guests.</li>
+          <li><b>Consider asking your officiant to announce an unplugged ceremony.</b> A quick note asking guests to put phones away and stay out of the aisle makes such a difference in your processional photos.</li>
+          <li><b>It helps to learn your bustle before the wedding.</b> If your bridal shop can show a bridesmaid or your mom at your final fitting, have them take a quick video. (We're really experienced with bustles, even the most complicated ones, and we LOVE helping! Same goes for pinning your veil and doing up those pesky dress buttons while you're getting ready. Just ask!)</li>
+          <li><b>Pick a day-of point person who isn't you.</b> That way vendors, family, and your wedding party have someone to go to with questions, and you get to just enjoy the day.</li>
+          <li><b>Try not to plan every single minute.</b> A little breathing room leaves space for unexpected moments without throwing the schedule off.</li>
+          <li><b>Think about where the sun will be during your ceremony.</b> If you're getting married outdoors, it's worth visiting your ceremony spot around the same time of day to see where the light and shadows fall. (We'd love to give our feedback too, if you'd like!)</li>
+          <li><b>A few clear umbrellas are a great backup.</b> If it rains, they let the light through and look so pretty in photos. Dark or logo umbrellas tend to block it.</li>
+        </ul>
+      </div>
+      <div class="tipcard">
+        <h3>Getting ready</h3>
+        <ul>
+          <li><b>Gather your details before we arrive.</b> Rings (yes, even the ones the best man will hold), shoes, an extra invitation suite, jewelry, perfume, heirlooms, and vow books. Having them all in one box or bag means we can jump right in.</li>
+          <li><b>If possible, we love a room with a big window.</b> Natural light is the most flattering, and we'll make any space work.</li>
+          <li><b>It's a good idea to have someone ready to pin boutonnières.</b> Florists often drop off and head out, so a mom, aunt, or bridesmaid who's practiced once is a lifesaver. Left lapel, stem pointing down. (We're super experienced with these too, so we're happy to help if needed!)</li>
+          <li><b>Keep a towel handy for your bouquets.</b> Stems sit in water and love to drip on dresses, so a quick pat-dry before photos helps. A vase of water nearby keeps them fresh in between.</li>
+          <li><b>A button-up or zip-front top is your friend</b> for hair and makeup, so you don't have to pull anything over your head afterward.</li>
+          <li><b>Do a quick pocket and wrist check.</b> Phones, keys, and wallets out of suit pockets, and hair ties, smart watches, and fitness trackers off.</li>
+          <li><b>Please eat!</b> Having someone order lunch for everyone getting ready is a game changer. So many couples forget to eat until dinner.</li>
+        </ul>
+      </div>
+      <div class="tipcard">
+        <h3>First look &amp; portraits</h3>
+        <ul>
+          <li><b>Other first looks are so fun, if you'd like them.</b> Dad, siblings, or the wedding party in their pajamas make for some of our favorite reactions.</li>
+          <li><b>If you're writing private vows or letters, paper is the way to go.</b> A vow book or handwritten card photographs so much better than reading from a phone.</li>
+          <li><b>Try holding your bouquet at your belly button rather than your chest.</b> Everyone holds it a little high when they're nervous, and lowering it shows off your dress and arms.</li>
+          <li><b>We like to leave a little downtime.</b> We build in 30 minutes tucked away before the ceremony so you can eat, breathe, and touch up.</li>
+        </ul>
+      </div>
+      <div class="tipcard">
+        <h3>Family formals</h3>
+        <ul>
+          <li><b>Give your family a heads-up ahead of time.</b> Letting everyone on the list know when and where to be, and that we'll need their attention for a few minutes, keeps things moving.</li>
+          <li><b>It helps to have someone who can wrangle.</b> A friend or relative who knows both families can call out the next group.</li>
+          <li><b>Thinking about a large extended family photo?</b> We often do those right after the ceremony, while everyone is already together. Let's chat if that's something you're interested in!</li>
+          <li><b>A focused list goes a long way.</b> When everyone is there and paying attention, each smaller group takes about 1 to 2 minutes.</li>
+          <li><b>We usually try to photograph grandparents last</b> so it's easier for them, but let us know if you'd prefer to do that differently.</li>
+        </ul>
+      </div>
+      <div class="tipcard">
+        <h3>Ceremony</h3>
+        <ul>
+          <li><b>You might ask your officiant to step aside for the kiss.</b> That way nobody is standing right behind you in that photo.</li>
+          <li><b>Hold the kiss for a few seconds.</b> A quick peck can be over before we've had the chance to capture it.</li>
+          <li><b>If you want, stop for a second kiss at the end of the aisle</b> on your way out. It makes a really fun photo.</li>
+        </ul>
+      </div>
+      <div class="tipcard">
+        <h3>Reception</h3>
+        <ul>
+          <li><b>If you can, have your caterer serve us when you're served.</b> That way we're done eating and ready to go when speeches start.</li>
+          <li><b>Sunset photos only take 10 to 15 minutes.</b> We'll sneak you out during the room flip or right after cake.</li>
+          <li><b>If you're doing a sparkler exit, 36-inch smokeless sparklers work best,</b> with two or three people ready with lighters. The short ones tend to burn out before you reach the end.</li>
+          <li><b>We're happy to stage a send-off.</b> If your real exit is after we leave, we'll set one up before we go so you still get those photos.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="hint" style="margin-top:18px">Still have questions? Reach out anytime at hello@rulecreativeco.com.</p>
+  </section>
+
+  <!-- SEND -->
+  <section id="p-send" data-panel="send" hidden>
+    <div class="sect-head">
+      <h2>Send it to us</h2>
+      <p>This page doesn't send anything on its own. Download your plan as a PDF or copy it, then email it to us.</p>
+    </div>
+    <div class="split">
+      <div class="panel" id="sendPanel">
+        <div class="fld"><span class="lab">1. Save your plan</span>
+          <div class="chips">
+            <button class="btn primary" id="pdfBtn" hidden>Download PDF</button>
+            <button class="btn" id="copyBtn">Copy as text</button>
+          </div>
+          <span class="toast" id="sendToast" role="status"></span>
+        </div>
+        <div class="fld" id="emailBlock"><span class="lab">2. Email it to us</span><div id="emailTo"></div></div>
+        <div class="fld"><span class="lab">Need a fresh start?</span>
+          <div class="confirm" id="resetArea"><button class="btn small ghost" id="resetBtn">Clear all my answers</button></div>
+        </div>
+      </div>
+      <div class="out"><pre class="sum" id="summary"></pre></div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ===== Studio settings: edit these ===== */
+const STUDIO = { name: "Rule Creative Co", email: "hello@rulecreativeco.com" };
+
+/* ===== Data ===== */
+const CITIES = [
+  ["minneapolis","Minneapolis / St. Paul, MN",44.98,-93.27],["stcloud","St. Cloud, MN",45.56,-94.16],["duluth","Duluth, MN",46.79,-92.10],
+  ["rochester","Rochester, MN",44.02,-92.47],["brainerd","Brainerd Lakes, MN",46.36,-94.20],["alexandria","Alexandria, MN",45.89,-95.38],
+  ["mankato","Mankato, MN",44.16,-94.00],["fargo","Fargo-Moorhead",46.88,-96.79],["siouxfalls","Sioux Falls, SD",43.55,-96.73],
+  ["madison","Madison, WI",43.07,-89.40],["milwaukee","Milwaukee, WI",43.04,-87.91],["chicago","Chicago, IL",41.88,-87.63],["desmoines","Des Moines, IA",41.59,-93.62],
+  ["custom","Somewhere else (enter coordinates)",null,null]
+];
+const SHOTS = [
+  {cat:"Details",items:[["rings","Rings together, engagement ring too"],["invite","Invitation suite and stationery"],["attire","Attire hanging or laid out"],["shoes","Shoes, jewelry, and accessories"],["florals","Bouquet and boutonnières"],["heirloom","Heirlooms or something borrowed"],["vowbook","Vow books or letters"]]},
+  {cat:"Getting ready",items:[["finaltouch","Final touches: buttons, zipper, tie, veil"],["letters","Reading a letter or opening a gift"],["parentreveal","A parent seeing you dressed"],["crewtoast","A toast with your crew"],["candidprep","Candid laughs while getting ready"]]},
+  {cat:"First look & portraits",items:[["firstlook","First look reactions"],["privatevows","Private vows"],["golden","Golden hour portraits"],["silhouette","Sunset silhouette"],["night","Night portrait with flash or sparklers"],["wpfun","Fun wedding party shots"]]},
+  {cat:"Ceremony",items:[["venue","Ceremony space before guests arrive"],["processional","Everyone walking down the aisle"],["aisle","Reaction at the end of the aisle"],["ringx","Ring exchange"],["kiss","The kiss"],["recessional","Recessional and cheering guests"],["tradition","Cultural or religious traditions"]]},
+  {cat:"Reception",items:[["room","Reception room before guests"],["entrance","Grand entrance"],["fdance","First dance"],["pdance","Parent dances"],["toasts","Toasts and reactions"],["cake","Cake cutting or dessert"],["toss","Bouquet or garter toss"],["dancefloor","A packed dance floor"],["exit","Send-off"]]}
+];
+const sideDefault = () => ({status:"together",p1:"",p2:"",s1:"",s2:"",sibs:"",grand:"",seat:false,extended:true,extras:""});
+const DEFAULTS = {
+  basics:{a:"",b:"",date:"",loc:"minneapolis",lat:"",lon:"",sunset:""},
+  tl:{ceremony:"16:00",cerLen:"30",pkg:"8",pkgOther:"9",firstLook:"yes",party:"large",prepSame:"yes",prepTravel:"20",recSame:"yes",recTravel:"15",cocktail:"60",photoLoc:"prep",extraFirstLook:true,receiving:false,social:"join",awayMins:"30",awayNote:"",firstDance:"parents",dinnerMode:"suggest",dinnerTime:"18:00",extraUse:{portraits:true,loc:false,wp:true,gr:true},recEnd:"23:00",sendoff:true,toss:false,notes:""},
+  fam:{sides:[sideDefault(),sideDefault()],wrangler:"",custom:[],hidden:[]},
+  shots:{must:{},moments:"",people:""},
+  quiz:{q1:"",q2:"",q3:"",q4:"",q5:"",q6:""},
+  cer:{goal:"reception",earliest:"",latest:""}
+};
+const EXAMPLE_DATE = "2027-06-12";
+const KEY = "wedding-planner-v1";
+
+function merge(def, val){
+  if (Array.isArray(def)) return Array.isArray(val) ? val : def;
+  if (def && typeof def === "object"){
+    const o = {}; for (const k in def) o[k] = merge(def[k], val ? val[k] : undefined);
+    if (val && typeof val === "object") for (const k in val) if (!(k in o)) o[k] = val[k];
+    return o;
+  }
+  return val === undefined ? def : val;
+}
+let S;
+try { S = merge(DEFAULTS, JSON.parse(localStorage.getItem(KEY) || "null")); } catch(e){ S = merge(DEFAULTS, null); }
+if (!Array.isArray(S.fam.sides) || S.fam.sides.length < 2) S.fam.sides = [sideDefault(), sideDefault()];
+S.fam.sides = S.fam.sides.map(s => merge(sideDefault(), s));
+let saveTimer;
+function save(){ clearTimeout(saveTimer); saveTimer = setTimeout(()=>{ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }, 250); }
+
+/* ===== Helpers ===== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const toMin = t => { if (!t || !/^\d{1,2}:\d{2}/.test(t)) return null; const [h,m] = t.split(":").map(Number); return h*60+m; };
+function fmt(m){ m = ((Math.round(m) % 1440) + 1440) % 1440; let h = Math.floor(m/60); const mm = m % 60; const ap = h >= 12 ? "PM" : "AM"; h = h % 12 || 12; return h + ":" + String(mm).padStart(2,"0") + " " + ap; }
+function dur(m){ m = Math.round(m); if (m < 60) return m + " min"; const h = Math.floor(m/60), r = m % 60; return h + (h === 1 ? " hr" : " hrs") + (r ? " " + r + " min" : ""); }
+const nameA = () => S.basics.a.trim() || "Partner A";
+const nameB = () => S.basics.b.trim() || "Partner B";
+const couple = () => (S.basics.a.trim() && S.basics.b.trim()) ? nameA() + " & " + nameB() : "the couple";
+const lines = t => String(t || "").split(/\n|;/).map(s => s.trim()).filter(Boolean);
+function getPath(p){ return p.split(".").reduce((o,k)=> o == null ? undefined : o[k], S); }
+function setPath(p, v){ const ks = p.split("."); let o = S; for (let i=0;i<ks.length-1;i++) o = o[ks[i]]; o[ks[ks.length-1]] = v; }
+
+/* ===== Sun math (NOAA almanac method) ===== */
+const rad = d => d*Math.PI/180, deg = r => r*180/Math.PI;
+function sunUTC(y, mo, d, lat, lon, zenith, rising){
+  const N = Math.floor((Date.UTC(y,mo-1,d) - Date.UTC(y,0,0)) / 86400000);
+  const lngHour = lon/15;
+  const t = N + (((rising ? 6 : 18) - lngHour)/24);
+  const M = 0.9856*t - 3.289;
+  let L = M + 1.916*Math.sin(rad(M)) + 0.020*Math.sin(rad(2*M)) + 282.634; L = ((L%360)+360)%360;
+  let RA = deg(Math.atan(0.91764*Math.tan(rad(L)))); RA = ((RA%360)+360)%360;
+  RA = (RA + (Math.floor(L/90)*90 - Math.floor(RA/90)*90)) / 15;
+  const sinDec = 0.39782*Math.sin(rad(L)), cosDec = Math.cos(Math.asin(sinDec));
+  const cosH = (Math.cos(rad(zenith)) - sinDec*Math.sin(rad(lat))) / (cosDec*Math.cos(rad(lat)));
+  if (cosH > 1 || cosH < -1) return null;
+  const H = (rising ? 360 - deg(Math.acos(cosH)) : deg(Math.acos(cosH))) / 15;
+  const T = H + RA - 0.06571*t - 6.622;
+  let UT = ((T - lngHour) % 24 + 24) % 24;
+  const noonUT = 12 - lngHour;
+  if (!rising) while (UT < noonUT) UT += 24;
+  return Date.UTC(y,mo-1,d) + UT*3600000;
+}
+function localMin(ms, tz){
+  const parts = new Intl.DateTimeFormat("en-US",{timeZone:tz,hour:"numeric",minute:"numeric",hourCycle:"h23"}).formatToParts(new Date(ms));
+  const h = +parts.find(p=>p.type==="hour").value, m = +parts.find(p=>p.type==="minute").value;
+  return h*60 + m;
+}
+function place(){
+  const c = CITIES.find(x => x[0] === S.basics.loc) || CITIES[0];
+  if (c[0] === "custom"){
+    const lat = parseFloat(S.basics.lat), lon = parseFloat(S.basics.lon);
+    if (isFinite(lat) && isFinite(lon)) return {label:"your venue", lat, lon, tz: Intl.DateTimeFormat().resolvedOptions().timeZone};
+    return {label: CITIES[0][1] + " (enter coordinates for yours)", lat:CITIES[0][2], lon:CITIES[0][3], tz:"America/Chicago", fallback:true};
+  }
+  return {label:c[1], lat:c[2], lon:c[3], tz:"America/Chicago"};
+}
+function lightFor(dateStr){
+  const p = place();
+  const [y,mo,d] = dateStr.split("-").map(Number);
+  const ss = sunUTC(y,mo,d,p.lat,p.lon,90.833,false);
+  const gh = sunUTC(y,mo,d,p.lat,p.lon,84,false);
+  const bh = sunUTC(y,mo,d,p.lat,p.lon,96,false);
+  return {
+    sunset: ss ? localMin(ss,p.tz) : null,
+    golden: gh ? localMin(gh,p.tz) : null,
+    blueEnd: bh ? localMin(bh,p.tz) : null,
+    place: p
+  };
+}
+function light(){
+  const isExample = !S.basics.date;
+  const date = S.basics.date || EXAMPLE_DATE;
+  const L = lightFor(date);
+  const override = toMin(S.basics.sunset);
+  if (override != null){
+    const shift = override - (L.sunset ?? override);
+    L.sunset = override; if (L.golden != null) L.golden += shift; if (L.blueEnd != null) L.blueEnd += shift;
+    L.manual = true;
+  }
+  L.isExample = isExample; L.date = date;
+  return L;
+}
+function prettyDate(ds){ const [y,m,d] = ds.split("-").map(Number); return new Date(Date.UTC(y,m-1,d,12)).toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric",timeZone:"UTC"}); }
+
+/* ===== Timeline engine ===== */
+function coreTimeline(tl, L, bonus){
+  bonus = bonus || {};
+  const C = toMin(tl.ceremony) ?? 960;
+  const Lc = +tl.cerLen || 30;
+  const FL = tl.firstLook === "yes";
+  const wp = tl.party === "small" ? 30 : 45;
+  const tPrep = tl.prepSame === "yes" ? 0 : Math.max(0, +tl.prepTravel || 0);
+  const tRec = tl.recSame === "yes" ? 0 : Math.max(0, +tl.recTravel || 0);
+  const ck = +tl.cocktail || 60;
+  const pkg = tl.pkg === "other" ? Math.max(1, +tl.pkgOther || 8) : +tl.pkg;
+  const cerEnd = C + Lc;
+  const portraitsAtPrep = FL && tPrep > 0 && tl.photoLoc === "prep";
+  const extraFL = FL && !!tl.extraFirstLook;
+  const RL = tl.receiving ? 20 : 0;
+  const SUN = 15;
+  const sunsetS = L.sunset != null ? L.sunset - 30 : null;
+  const grLen = 60 + (bonus.gr || 0), flLen = 45 + (bonus.fl || 0), wpLen = wp + (bonus.wp || 0), locLen = bonus.loc ? 45 : 0;
+  const items = []; const warn = []; let seq = 0;
+  const add = (start, len, title, kind, tip, lane) => { const it = {start, len, title, kind, tip, lane: lane || (kind === "event" ? "guests" : "you"), seq: seq++}; items.push(it); return it; };
+  const GR_TIP = "Have attire, rings, shoes, invitation, and florals together in one spot so we can start on details right away. The room with the biggest window wins.";
+
+  // ---- Before the ceremony (built backward from the ceremony time) ----
+  let gr, flS = null, grItem;
+  if (FL){
+    let t = C - 30;
+    const trLate = portraitsAtPrep ? (t -= tPrep) : null;
+    const famS = t - 45, wpS = famS - wpLen, locS = wpS - locLen; flS = locS - flLen;
+    const xS = extraFL ? flS - 15 : null;
+    const firstS = xS ?? flS;
+    const trEarly = !portraitsAtPrep && tPrep ? firstS - tPrep : null;
+    gr = (trEarly ?? firstS) - grLen;
+    grItem = add(gr, grLen, "Getting ready", "photo", GR_TIP + (bonus.gr ? " We've given this a little extra time so the morning feels relaxed." : ""));
+    add(firstS - 20, 0, "Getting into attire", "photo", "We'll be there for the final touches: buttons, zipper, tie, veil.");
+    if (trEarly != null) add(trEarly, tPrep, "Travel to the ceremony site", "travel", "Drive time from where you're getting ready. We'll head over with you and set up for the first look.");
+    if (xS != null) add(xS, 15, "Other first looks", "photo", "A parent, siblings, or the wedding party in their pajamas. Some of our favorite reactions of the day.");
+    add(flS, flLen, "First look, private vows & couple portraits", "photo", "Just the two of you, before the nerves of the aisle. This is when we get your calmest, most connected portraits." + (bonus.fl ? " Extra time here means more variety and less rushing." : ""));
+    if (locLen) add(locS, locLen, "Portraits at a second location", "photo", "About 30 minutes of portraits somewhere with a different look, plus travel. Pick a spot within 10 minutes.");
+    add(wpS, wpLen, "Wedding party photos", "photo", "Have everyone dressed, boutonnières pinned, and bouquets in hand 10 minutes before this starts." + (bonus.wp ? " The extra time is for the fun, candid group shots." : ""));
+    add(famS, 45, "Family formals", "photo", "Everyone on the family list should arrive dressed by " + fmt(famS - 10) + ". A family wrangler who knows everyone keeps this moving.");
+    if (trLate != null) add(trLate, tPrep, "Travel to the ceremony site", "travel", "Photos are done, so we all head over. Make sure family knows where to go next.");
+  } else {
+    const soloS = C - 30 - 30; const tr = tPrep ? soloS - tPrep : null; gr = (tr ?? soloS) - grLen;
+    grItem = add(gr, grLen, "Getting ready", "photo", GR_TIP);
+    add(gr + 40, 0, "Getting into attire", "photo", "We'll be there for the final touches: buttons, zipper, tie, veil.");
+    if (tr != null) add(tr, tPrep, "Travel to the ceremony site", "travel", "Drive time from where you're getting ready, plus a few minutes for parking.");
+    add(soloS, 30, "Solo portraits & each side's wedding party", "photo", "Without a first look we photograph each of you separately, with your own side of the wedding party.");
+  }
+  add(C - 30, 30, "Tucked away before the ceremony", "break", "Guests are arriving. Hide out, eat a snack, touch up, and breathe. We'll photograph the ceremony space and get ready.");
+  add(C - 30, 0, "Guests begin arriving", "event", "", "guests");
+  add(C, Lc, "Ceremony", "ceremony", "Consider an unplugged ceremony. Ask your officiant to step aside for the kiss so nobody is standing behind you in that photo.");
+
+  // ---- Ceremony to dinner ----
+  let busyTo = cerEnd;
+  if (RL){ add(cerEnd, RL, "Receiving line", "event", "Greet guests as they leave. We'll grab candids of the hugs.", "you"); busyTo += RL; }
+  if (!FL){
+    add(busyTo, 45, "Family formals", "photo", "Ask everyone on the family list to stay up front right after the recessional. A family wrangler who knows everyone keeps this moving."); busyTo += 45;
+    add(busyTo, wp, "Full wedding party photos", "photo", "First time we can photograph everyone together."); busyTo += wp;
+    add(busyTo, 45, "Couple portraits", "photo", "Your portraits happen here, during what would have been your social hour."); busyTo += 45;
+  }
+  if (tRec) add(busyTo, tRec, "Travel to the reception", "travel", "Guests head over too, so social hour starts when they arrive.");
+  const ckStart = cerEnd + (tRec ? RL + tRec : 0);
+  const fdEntrance = tl.firstDance === "entrance";
+  const entLen = fdEntrance ? 20 : 15;
+  const fixedD = tl.dinnerMode === "set" ? toMin(tl.dinnerTime) : null;
+  let ckLen = ck;
+  if (fixedD != null){
+    ckLen = Math.max(0, fixedD - entLen - 15 - ckStart);
+    if (ckLen < 30) warn.push({t:"warn", h:"Dinner at " + fmt(fixedD) + " leaves " + (ckLen ? "only " + dur(ckLen) : "no time") + " for social hour", b:"Guests need about 15 minutes to sit down and the grand entrance takes another " + entLen + ". A later dinner, or an earlier ceremony, gives everyone room to breathe."});
+    else if (ckLen > 105) warn.push({t:"warn", h:"That's a " + dur(ckLen) + " social hour", b:"Dinner at " + fmt(fixedD) + " leaves a long gap after the ceremony. Guests can get restless after about 90 minutes. An earlier dinner or later ceremony would tighten it up."});
+  }
+  const ckEnd = ckStart + ckLen;
+  const away = tl.social === "away";
+  add(ckStart, ckLen, "Social hour", "event", FL && !away ? "Photos are done, so you get to enjoy all of this with your guests. That's the big perk of a first look." : "", "guests");
+  let freeAt = busyTo + tRec;
+  if (away){
+    const am = Math.max(5, +tl.awayMins || 30);
+    const what = String(tl.awayNote || "").trim();
+    add(freeAt, am, "Away from social hour" + (what ? ": " + what : ""), "break", "Let us know if you'd like us along for photos or if this is just time for the two of you. Plan to be back about 10 minutes before your entrance.");
+    freeAt += am;
+  }
+  add(ckEnd, 0, "Guests seated for dinner", "event", "Have your DJ or coordinator call everyone to their seats. It takes about 15 minutes.", "guests");
+  const E = Math.max(ckEnd + 15, freeAt + 10);
+  const cocktailWithGuests = Math.max(0, Math.min(E, ckEnd) - freeAt);
+  const guestWaitExtra = Math.max(0, E - (ckEnd + 15));
+  if (cocktailWithGuests > 0 && (FL || away)) add(freeAt, 0, away ? "Back to join social hour" : "Join your social hour", "event", "Grab a drink and say hi. We'll capture candids while you mingle.", "guests");
+  if (guestWaitExtra > 0) warn.push({t:"warn", h:"Guests wait " + dur(guestWaitExtra) + " past social hour", b:(away && FL ? "Your time away" : "Your photos") + " run" + (away && FL ? "s" : "") + " past the end of social hour, so the grand entrance gets pushed back." + (FL ? " A shorter break away or a longer social hour fixes this." : " A first look fixes this.")});
+
+  // ---- Reception ----
+  if (fixedD != null && E + entLen > fixedD) warn.push({t:"warn", h:"Dinner starts " + dur(E + entLen - fixedD) + " later than planned", b:"Your photos or time away run past when guests would sit down for your " + fmt(fixedD) + " dinner. Let your caterer know, or adjust the plan above."});
+  add(E, entLen, fdEntrance ? "Grand entrance, first dance & welcome" : "Grand entrance & welcome", "event", "Grand march, then a welcome or dinner prayer. Line up with your wedding party just outside the doors 5 minutes early." + (fdEntrance ? " Going straight into your first dance works great while everyone is already watching." : ""), "guests");
+  const D = E + entLen;
+  add(D, 60, "Dinner", "event", "Please seat us close to the action and serve us when you're served. That way we're done eating before speeches start.", "guests");
+  add(D + 30, 30, "Speeches & toasts", "event", "Speeches usually start about halfway through dinner. Ask each speaker to keep it to 3 to 5 minutes.", "guests");
+  let r = D + 60;
+  add(r, 10, "Cake cutting", "event", "Have the cake knife and plates ready ahead of time.", "guests"); r += 10;
+  let sunPlaced = false;
+  if (sunsetS != null && sunsetS >= r - 30 && sunsetS <= r + 20){
+    add(r, SUN, "Sunset photos", "light", "We'll slip outside for 10 to 15 minutes while the room flips for dancing. This is the warmest, softest light of the whole day."); r += SUN; sunPlaced = true;
+  }
+  if (fdEntrance){ add(r, 10, "Parent dances", "event", "", "guests"); r += 10; }
+  else { add(r, 15, "First dance & parent dances", "event", "Your first dance, then the parent dances back to back. It flows right into opening the dance floor.", "guests"); r += 15; }
+  const recEndRaw = toMin(tl.recEnd) ?? 1380;
+  const recEnd = recEndRaw <= C ? recEndRaw + 1440 : recEndRaw;
+  const danceS = r;
+  add(danceS, Math.max(30, recEnd - danceS), "Open dance floor", "event", "We photograph about the first 30 minutes of dancing. That's when the floor is fullest and the energy is highest.", "guests");
+  if (tl.toss) add(danceS + 10, 10, "Bouquet / garter toss", "event", "Have your DJ call it about 10 minutes into dancing while the floor is full and we're still there.", "guests");
+
+  // ---- Coverage: end ~30 min into open dancing; leftover hours go to the start of the day ----
+  const pkgMin = pkg*60;
+  let idealEnd = Math.min(danceS + 30, Math.max(danceS, recEnd));
+  const gEnd = !sunPlaced && sunsetS != null && sunsetS >= cerEnd ? sunsetS + SUN + 5 : null;
+  if (gEnd && gEnd > idealEnd) idealEnd = Math.min(gEnd, Math.max(idealEnd, gr + pkgMin));
+  idealEnd = Math.min(Math.ceil(idealEnd / 5) * 5, Math.max(idealEnd, gr + pkgMin));
+  const needed = idealEnd - gr;
+  let covStart, covEnd;
+  if (pkgMin >= needed){
+    const extra = pkgMin - needed;
+    covEnd = idealEnd; covStart = gr - extra;
+    if (extra > 0){
+      grItem.start = covStart; grItem.len += extra;
+      grItem.title = "Getting ready (extended)";
+      grItem.tip = GR_TIP + " We start " + dur(extra) + " earlier so nothing feels rushed.";
+    }
+  } else {
+    covStart = gr; covEnd = gr + pkgMin;
+    if (covEnd < danceS) warn.push({t:"warn", h:"Coverage ends " + dur(danceS - covEnd) + " before the dance floor opens", b:"With " + pkg + " hours starting at " + fmt(gr) + ", coverage ends at " + fmt(covEnd) + ", so we'd miss some of the reception moments. Adding time, or tightening the morning, would fix it."});
+  }
+
+  // ---- Sunset ----
+  if (L.sunset != null){
+    if (!sunPlaced){
+      const gS = Math.max(L.sunset - 65, Math.min(sunsetS, covEnd - SUN - 5));
+      const photoBlock = items.find(i => i.lane === "you" && i.kind === "photo" && i.len && i.start < gS + SUN && i.start + i.len > gS);
+      if (gS >= cerEnd && gS + SUN <= covEnd && photoBlock){
+        photoBlock.tip += " Sunset light falls during this block, so we'll use it.";
+      } else if (gS >= cerEnd && gS + SUN <= covEnd){
+        const clash = items.filter(i => i.lane === "guests" && /entrance|dance &|Parent dances|Speeches|Cake/.test(i.title) && i.start < gS + SUN && i.start + i.len > gS);
+        add(gS, SUN, "Sunset photos", "light", "We'll steal you away for 10 to 15 minutes. This is the warmest, softest light of the whole day." + (clash.length ? " It lines up with " + clash.map(c=>c.title.toLowerCase()).join(" and ") + ", so we'll go right after." : ""));
+      } else if (gS < cerEnd){
+        if (FL && flS != null && L.sunset > flS && L.sunset <= C) warn.push({t:"sun", h:"Golden hour lands during your portraits", b:"Sunset is at " + fmt(L.sunset) + ", so your first-look portraits will catch the late-day glow."});
+        else warn.push({t:"sun", h:"Sunset (" + fmt(L.sunset) + ") is before your ceremony ends", b:"We'll plan quick night portraits during the reception instead. Moving your ceremony earlier would let us catch golden light."});
+        const nS = D + 70;
+        if (nS + 10 <= covEnd) add(nS, 10, "Night portraits", "light", "Ten minutes outside with off-camera flash. Dramatic, quick, and worth it.");
+      } else {
+        const short = Math.ceil((sunsetS + SUN + 5 - covEnd) / 30) * 30;
+        warn.push({t:"warn", h:"Sunset photos fall after coverage ends", b:"Sunset is at " + fmt(L.sunset) + " and coverage ends at " + fmt(covEnd) + ". Adding about " + dur(short) + " of coverage would get you sunset photos."});
+      }
+    }
+    add(L.sunset, 0, "Sunset", "light", "", "you");
+  }
+  // ---- Send-off & end ----
+  if (tl.sendoff){
+    if (recEnd <= covEnd) add(recEnd - 10, 10, "Send-off", "event", "Hand out sparklers or bubbles 10 minutes early and have someone ready with a lighter.", "guests");
+    else if (covEnd - danceS >= 10) add(covEnd - 10, 10, "Faux send-off", "event", "Your real exit is after we leave, so we'll stage one right before we go. Same photos, while everyone's still here.", "guests");
+  }
+  add(covEnd, 0, "Photography coverage ends", "end", "", "you");
+  if (covStart < 360) warn.push({t:"warn", h:"That's an early start", b:"Getting ready coverage would start at " + fmt(covStart) + "."});
+
+  items.sort((a,b) => a.start - b.start || a.seq - b.seq);
+  return {items, warn, covStart, covEnd, E, D, C, cerEnd, FL, pkg, cocktailWithGuests, guestWaitExtra, recEnd, extra: covStart < gr ? gr - covStart : 0, sunPlaced, flS, danceS, gr};
+}
+// Extra coverage game plan: fill in this order, then start earlier with whatever is left.
+const EXTRA_PLAN = [
+  {k:"portraits", amt:15, fl:true, label:"More couple portraits"},
+  {k:"loc", amt:45, fl:true, label:"A second portrait location"},
+  {k:"wp", amt:15, fl:true, label:"More wedding party fun"},
+  {k:"gr", amt:30, fl:false, label:"A relaxed getting ready"}
+];
+function buildTimeline(tl, L){
+  const base = coreTimeline(tl, L, {});
+  const FL = tl.firstLook === "yes";
+  let extra = base.extra; const used = []; const b = {};
+  const want = DEFAULTS.tl.extraUse;
+  for (const opt of EXTRA_PLAN){
+    if (!want[opt.k] || (opt.fl && !FL) || extra < opt.amt) continue;
+    if (opt.k === "portraits") b.fl = 15;
+    if (opt.k === "loc") b.loc = true;
+    if (opt.k === "wp") b.wp = 15;
+    if (opt.k === "gr") b.gr = 30;
+    extra -= opt.amt; used.push(opt);
+  }
+  const T = used.length ? coreTimeline(tl, L, b) : base;
+  T.baseExtra = base.extra; T.used = used;
+  return T;
+}
+
+
+/* ===== Family engine ===== */
+function famGroups(){
+  const sides = S.fam.sides; const names = [nameA(), nameB()];
+  const cp = "Couple";
+  const groups = [];
+  const add = (sec, title, who, note, big) => groups.push({key: sec + "|" + title, sec, title, who: who || "", note: note || "", big: !!big});
+  // both families
+  const sep = sides.some(s => s.status === "separated");
+  add("Both families", cp + " + both immediate families", "Parents, step-parents, siblings and their partners and kids from both sides", sep ? "Only if everyone is comfortable together. Skip it if not." : "", true);
+  add("Both families", cp + " + both sets of parents", sides.map((s,i)=>parentsLabel(s,names[i])).join(" · "), sep ? "Only if everyone is comfortable together." : "");
+  sides.forEach((s,i) => {
+    const N = names[i], sec = N + "'s family", sib = lines(s.sibs), ex = lines(s.extras);
+    if (s.extended) add(sec, cp + " + " + N + "'s extended family", "Aunts, uncles, cousins, and everyone above", "Gather them all at once, then we'll peel away.", true);
+    if (s.status === "together"){
+      if (sib.length) add(sec, cp + " + " + N + "'s immediate family with partners and kids", parentsLabel(s,N) + " + " + sib.join(", "));
+      if (sib.length) add(sec, cp + " + " + N + "'s parents and siblings", "Partners and kids step out");
+      add(sec, cp + " + " + N + "'s parents", parentsLabel(s,N));
+      add(sec, N + " + parents", "Without " + names[1-i]);
+    } else {
+      const ps = [[s.p1,s.s1],[s.p2,s.s2]];
+      ps.forEach(([p,st],j) => {
+        const pn = p.trim() || N + "'s parent " + (j+1);
+        add(sec, cp + " + " + pn + (st.trim() ? " & " + st.trim() : ""), sib.length ? "Then add " + N + "'s siblings for a second shot" : "", "Separate photo for each parent.");
+        add(sec, N + " + " + pn, "");
+      });
+    }
+    sib.forEach(line => add(sec, cp + " + " + line, ""));
+    if (sib.length) add(sec, N + " + siblings", "");
+    ex.forEach(line => add(sec, cp + " + " + line, ""));
+  });
+  S.fam.custom.forEach(c => add("Your additions", c, ""));
+  // grandparents last
+  sides.forEach((s,i) => { const g = lines(s.grand); if (g.length) add("Grandparents last", cp + " + " + names[i] + "'s grandparents", g.join(", "), s.seat ? "Have a chair ready. They'll be seated for this one." : "Let them relax nearby until we call them up."); });
+  return groups;
+}
+function parentsLabel(s, N){
+  const ps = [s.p1.trim(), s.p2.trim()].filter(Boolean);
+  if (s.status === "together") return ps.length ? ps.join(" & ") : N + "'s parents";
+  const parts = [[s.p1,s.s1],[s.p2,s.s2]].map(([p,st]) => p.trim() ? p.trim() + (st.trim() ? " & " + st.trim() : "") : "").filter(Boolean);
+  return parts.length ? parts.join(", ") : N + "'s parents";
+}
+
+/* ===== Builders: inputs ===== */
+function buildStatic(){
+  buildQuizForm();
+  $("#b-loc").innerHTML = CITIES.map(c => `<option value="${c[0]}">${esc(c[1])}</option>`).join("");
+  $("#sideForms").innerHTML = [0,1].map(i => `
+    <div class="panel">
+      <div class="side-title" data-name="${i}"></div>
+      <div class="fld"><span class="lab">Parents are</span>
+        <div class="seg">
+          <label><input type="radio" name="st${i}" value="together" data-k="fam.sides.${i}.status"><span>Together</span></label>
+          <label><input type="radio" name="st${i}" value="separated" data-k="fam.sides.${i}.status"><span>Separated or divorced</span></label>
+        </div><span class="hint">Separated parents get their own photos. No awkward combos unless you say so.</span></div>
+      <div class="row2">
+        <div class="fld"><label for="p1-${i}">Parent</label><input type="text" id="p1-${i}" data-k="fam.sides.${i}.p1" placeholder="Name"></div>
+        <div class="fld"><label for="p2-${i}">Parent</label><input type="text" id="p2-${i}" data-k="fam.sides.${i}.p2" placeholder="Name"></div>
+      </div>
+      <div class="row2 steprow-${i}">
+        <div class="fld"><label for="s1-${i}">Their partner</label><input type="text" id="s1-${i}" data-k="fam.sides.${i}.s1" placeholder="Step-parent, if any"></div>
+        <div class="fld"><label for="s2-${i}">Their partner</label><input type="text" id="s2-${i}" data-k="fam.sides.${i}.s2" placeholder="Step-parent, if any"></div>
+      </div>
+      <div class="fld"><label for="sib-${i}">Siblings, one per line</label><textarea id="sib-${i}" data-k="fam.sides.${i}.sibs" placeholder="Emma, husband Jake, kids Lily & Max&#10;Sam"></textarea><span class="hint">Include partners and kids so we can photograph each sibling's family.</span></div>
+      <div class="fld"><label for="gp-${i}">Grandparents attending</label><input type="text" id="gp-${i}" data-k="fam.sides.${i}.grand" placeholder="Grandma Jo; Grandpa Lou"></div>
+      <label class="check"><input type="checkbox" id="seat-${i}" data-k="fam.sides.${i}.seat"> A grandparent needs to sit for photos</label>
+      <label class="check"><input type="checkbox" id="ext-${i}" data-k="fam.sides.${i}.extended"> Include one big extended family photo</label>
+      <div class="fld"><label for="ex-${i}">Anyone else? One group per line</label><textarea id="ex-${i}" data-k="fam.sides.${i}.extras" placeholder="Godparents Ann & Rick&#10;College roommates"></textarea></div>
+    </div>`).join("") + `
+    <div class="panel">
+      <div class="fld"><label for="wr">Family wrangler</label><input type="text" id="wr" data-k="fam.wrangler" placeholder="Name and phone"><span class="hint">Someone outgoing who knows both families. They call out the next group so we don't have to guess who's who.</span></div>
+    </div>`;
+}
+function hydrate(){
+  document.querySelectorAll("[data-k]").forEach(el => {
+    const v = getPath(el.dataset.k);
+    if (el.type === "checkbox") el.checked = !!v;
+    else if (el.type === "radio") el.checked = String(v) === el.value;
+    else el.value = v ?? "";
+  });
+}
+
+/* ===== Renderers ===== */
+const KIND_COLOR = {photo:"var(--pine)",break:"var(--muted)",travel:"var(--muted)",light:"var(--accent)",ceremony:"var(--dusk)",event:"var(--dusk)",end:"var(--warn)"};
+function renderTimeline(){
+  const L = light(); const T = buildTimeline(S.tl, L);
+  const other = buildTimeline({...S.tl, firstLook: T.FL ? "no" : "yes"}, L);
+  const withFL = T.FL ? T : other, noFL = T.FL ? other : T;
+  let h = `<div class="chips">
+      <span class="chip cov">Coverage <b>${fmt(T.covStart)} – ${fmt(T.covEnd)}</b></span>
+      <span class="chip">Ceremony <b>${fmt(T.C)}</b></span>
+      <span class="chip">Entrance <b>${fmt(T.E)}</b></span>
+      <span class="chip">Dinner <b>${fmt(T.D)}</b></span>
+      ${L.sunset != null ? `<span class="chip sun">Sunset <b>${fmt(L.sunset)}</b></span>` : ""}
+    </div>`;
+  if (L.isExample) h += `<div class="note"><span class="hint">Using an example date (${prettyDate(EXAMPLE_DATE)}) for sunset. Add your date on the Start tab.</span></div>`;
+  h += strip(T, L);
+  h += `<div class="note ${T.FL ? "good" : "warn"}"><strong>${T.FL ? "Your first look buys you social hour" : "Here's what skipping the first look costs"}</strong>
+    <span>With a first look you'd get about <b>${dur(withFL.cocktailWithGuests)}</b> of social hour with your guests${withFL.guestWaitExtra ? "" : " and dinner starts on time"}. Without one, you'd get ${noFL.cocktailWithGuests ? "about " + dur(noFL.cocktailWithGuests) : "none of it"}${noFL.guestWaitExtra ? ", and guests wait an extra " + dur(noFL.guestWaitExtra) + " for your entrance" : ""}.</span></div>`;
+  h += T.warn.map(w => `<div class="note ${w.t === "sun" ? "sun" : w.t === "good" ? "good" : "warn"}"><strong>${esc(w.h)}</strong><span>${esc(w.b)}</span></div>`).join("");
+  h += `<ol class="tl">` + T.items.map(i => {
+    const after = i.start >= T.covEnd && i.kind !== "end";
+    return `<li class="${after ? "after" : ""} ${i.kind === "light" && i.len ? "lightrow" : ""}">
+      <span class="tm">${fmt(i.start)}</span><span class="dot" style="background:${KIND_COLOR[i.kind]}"></span>
+      <div><div class="ttl">${esc(i.title)}${after ? `<span class="tag">after coverage</span>` : ""}</div>
+      ${i.len ? `<div class="meta">${fmt(i.start)} – ${fmt(i.start + i.len)} · ${dur(i.len)}</div>` : ""}
+      ${i.tip ? `<div class="tip">${esc(i.tip)}</div>` : ""}</div></li>`;
+  }).join("") + `</ol>`;
+  $("#tlOut").innerHTML = h;
+  $("#dinnerSuggest").textContent = S.tl.dinnerMode === "set" ? "" : "We suggest dinner at " + fmt(T.D) + ". Share this with your caterer.";
+  return T;
+}
+function strip(T, L){
+  const s0 = Math.floor(T.covStart/60)*60;
+  const lastEnd = Math.max(T.covEnd, ...T.items.map(i => i.start + i.len));
+  const s1 = Math.min(Math.ceil(lastEnd/60)*60, s0 + 18*60);
+  const span = s1 - s0, pct = m => ((m - s0)/span*100);
+  const blk = i => { const l = Math.max(0,pct(i.start)), r = Math.min(100,pct(i.start + i.len)); if (r <= l) return ""; return `<div class="blk k-${i.kind}" style="left:${l}%;width:${r-l}%" title="${esc(i.title)} ${fmt(i.start)}">${esc(i.title)}</div>`; };
+  const you = T.items.filter(i => i.lane === "you" && i.len).map(blk).join("");
+  const gst = T.items.filter(i => i.lane === "guests" && i.len).map(blk).join("");
+  let ticks = ""; const step = span > 12*60 ? 120 : 60;
+  for (let m = s0; m <= s1; m += step) ticks += `<span style="left:${pct(m)}%">${fmt(m).replace(":00","")}</span>`;
+  const sun = L.sunset != null && L.sunset > s0 && L.sunset < s1 ? `<div class="marker" style="left:${pct(L.sunset)}%"><i>sunset</i></div>` : "";
+  const end = T.covEnd < s1 ? `<div class="marker end" style="left:${pct(T.covEnd)}%"><i>coverage ends</i></div>` : "";
+  return `<div class="strip-wrap"><div class="strip">
+      <p class="lane-lab">You &amp; us</p><div class="lane">${you}</div>
+      <p class="lane-lab">Guests</p><div class="lane">${gst}</div>
+      <div class="ticks">${ticks}</div>${sun}${end}
+    </div>
+    <div class="legend"><span><i style="background:var(--pine)"></i>Photos</span><span><i style="background:var(--dusk)"></i>Ceremony</span><span><i style="background:var(--accent)"></i>Golden light</span><span><i style="background:var(--muted)"></i>Downtime / travel</span><span><i style="background:var(--dusk-soft);border:1px solid var(--dusk)"></i>Guest events</span></div></div>`;
+}
+function renderFamily(){
+  const all = famGroups(); const hidden = new Set(S.fam.hidden);
+  const shown = all.filter(g => !hidden.has(g.key)), gone = all.filter(g => hidden.has(g.key));
+  const lo = Math.round(shown.reduce((a,g) => a + (g.big ? 2.5 : 1), 0));
+  const hi = Math.round(shown.reduce((a,g) => a + (g.big ? 3 : 2), 0));
+  const mins = Math.round((lo + hi) / 2);
+  const over = mins > 45;
+  let h = `<div class="panel" style="gap:10px">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline"><h3>${shown.length} groups · about ${lo === hi ? lo : lo + "–" + hi} min</h3><span class="hint">We schedule 45 minutes</span></div>
+      <div class="meter ${over ? "over" : ""}"><i style="width:${Math.min(100, mins/45*100)}%"></i></div>
+      ${over ? `<span class="hint" style="color:var(--warn)">That's more than we have scheduled. Remove a few groups, or plan to take some during the reception.</span>` : `<span class="hint">When everyone is on site and paying attention, smaller groups take 1 to 2 minutes each. Big groups take about 3. Having someone help wrangle family members, and letting them know ahead of time to pay attention, helps keep this moving along nicely.</span>`}
+    </div><ol class="groups">`;
+  let sec = null, n = 0;
+  shown.forEach(g => {
+    if (g.sec !== sec){ sec = g.sec; h += `<li class="secrow"><div class="sec">${esc(sec)}</div></li>`; }
+    n++;
+    h += `<li><span class="n">${String(n).padStart(2,"0")}</span><div><div>${esc(g.title)}</div>${g.who ? `<div class="who">${esc(g.who)}</div>` : ""}${g.note ? `<div class="gnote">${esc(g.note)}</div>` : ""}</div>
+      <button class="btn small ghost" data-hide="${esc(g.key)}" aria-label="Remove ${esc(g.title)}">Remove</button></li>`;
+  });
+  h += `</ol>
+    <div class="panel" style="gap:10px"><label for="addGroup" class="lab" style="font-size:13px;font-weight:600">Add a group</label>
+      <div class="addrow"><input type="text" id="addGroup" placeholder="e.g. Couple + Maya's dance team"><button class="btn" id="addGroupBtn">Add</button></div>
+      ${gone.length ? `<div class="hint">Removed: ${gone.map(g => `<button class="btn small ghost" data-unhide="${esc(g.key)}">Restore “${esc(g.title)}”</button>`).join(" ")}</div>` : ""}
+    </div>`;
+  $("#famOut").innerHTML = h;
+  document.querySelectorAll("[data-name]").forEach(el => el.textContent = (el.dataset.name === "0" ? nameA() : nameB()) + "'s side");
+  [0,1].forEach(i => { const r = document.querySelector(".steprow-" + i); if (r) r.hidden = S.fam.sides[i].status !== "separated"; });
+  return shown;
+}
+function renderLight(){
+  const L = light(); const T = buildTimeline(S.tl, L);
+  const p = L.place;
+  let h = "";
+  if (L.sunset == null){ $("#lightOut").innerHTML = `<div class="note warn"><strong>We couldn't calculate sunset here</strong><span>Check the coordinates on the Start tab, or type your sunset time there.</span></div>`; return; }
+  h += `<p class="hint">${L.isExample ? "Example date: " : ""}${prettyDate(L.date)} · ${esc(p.label)}${L.manual ? " · using your sunset time" : ""}</p>`;
+  h += `<div class="light-hero">
+      <div class="lt"><h3>Golden hour starts</h3><div class="big">${fmt(L.golden)}</div><span class="hint">Sun drops to 6° above the horizon</span></div>
+      <div class="lt sunset"><h3>Sunset</h3><div class="big">${fmt(L.sunset)}</div><span class="hint">We take sunset photos about 30 minutes before this</span></div>
+      <div class="lt blue"><h3>Blue hour ends</h3><div class="big">${fmt(L.blueEnd)}</div><span class="hint">Last soft twilight, great for moody portraits</span></div>
+    </div>`;
+  const gS = L.sunset - 30;
+  let rec;
+  if (gS >= T.cerEnd) rec = `<strong>Plan on sunset photos around ${fmt(gS)}</strong><span>That's after your ceremony ends at ${fmt(T.cerEnd)}, so we'll slip out of the reception for 10 to 15 minutes. Your timeline shows exactly where it fits.</span>`;
+  else if (L.sunset > T.C - 120) rec = `<strong>The light will be low and warm before your ceremony</strong><span>Your first look and portraits will catch it. If you want golden hour portraits after the ceremony, a ceremony around ${fmt(L.sunset - 30 - 30 - (+S.tl.cerLen||30))} or later works.</span>`;
+  else rec = `<strong>Sunset comes early on your date</strong><span>We'll lean on the first look for natural light and add night portraits with flash at the reception. Starting the day earlier gives us more daylight.</span>`;
+  h += `<div class="note sun">${rec}</div>`;
+  // months
+  const y = +L.date.slice(0,4), curM = +L.date.slice(5,7);
+  const ms = []; for (let m = 1; m <= 12; m++){ const r = lightFor(y + "-" + String(m).padStart(2,"0") + "-15"); ms.push(r.sunset); }
+  const lo = Math.min(...ms) - 30, hi = Math.max(...ms);
+  h += `<div class="panel"><h3>Sunset on the 15th of each month, ${esc(p.label.split(" (")[0])}</h3><div class="months-wrap"><div class="months">` +
+    ms.map((v,i) => `<div class="mo ${i+1 === curM ? "cur" : ""}"><b>${fmt(v).replace(" PM","")}</b><i style="height:${Math.max(6,(v-lo)/(hi-lo)*100)}px"></i><span>${"JFMAMJJASOND"[i]}</span></div>`).join("") +
+    `</div></div><span class="hint">Handy if you're still picking a ceremony time. Times are standard or daylight time as it applies that day.</span></div>`;
+  $("#lightOut").innerHTML = h;
+}
+function summaryText(){
+  const L = light(); const T = buildTimeline(S.tl, L); const fam = famGroups().filter(g => !S.fam.hidden.includes(g.key));
+  const out = [];
+  out.push("WEDDING PLAN: " + (S.basics.a || S.basics.b ? nameA() + " & " + nameB() : "(add your names)"));
+  out.push("Date: " + (S.basics.date ? prettyDate(S.basics.date) : "(not set)") + " · Near: " + L.place.label);
+  out.push("Coverage: " + (T.pkg) + " hours, " + fmt(T.covStart) + " to " + fmt(T.covEnd) + " · First look: " + (T.FL ? "yes" : "no"));
+  out.push("Sunset: " + (L.sunset != null ? fmt(L.sunset) : "n/a") + (L.manual ? " (entered)" : ""));
+  out.push("Dinner: " + fmt(T.D) + (S.tl.dinnerMode === "set" ? " (our set time)" : " (suggested)"));
+  const qr = quizResult(); if (qr.done) out.push("First look quiz: " + qr.verdict);
+  out.push("", "TIMELINE");
+  T.items.forEach(i => out.push(fmt(i.start).padStart(8) + "  " + i.title + (i.len ? " (" + dur(i.len) + ")" : "") + (i.start >= T.covEnd && i.kind !== "end" ? " [after coverage]" : "")));
+  T.warn.forEach(w => out.push("  ! " + w.h));
+  if (S.tl.notes.trim()) out.push("Notes: " + S.tl.notes.trim());
+  out.push("", "FAMILY FORMALS (" + fam.length + " groups)");
+  if (S.fam.wrangler.trim()) out.push("Family wrangler: " + S.fam.wrangler.trim());
+  let sec = null, n = 0;
+  fam.forEach(g => { if (g.sec !== sec){ sec = g.sec; out.push("-- " + sec); } n++; out.push(String(n).padStart(2," ") + ". " + g.title + (g.who ? " (" + g.who + ")" : "") + (g.note ? " [" + g.note + "]" : "")); });
+  return out.join("\n");
+}
+function renderSend(){
+  $("#summary").textContent = summaryText();
+  const e = STUDIO.email.trim();
+  $("#emailTo").innerHTML = e
+    ? `<div class="chips" style="align-items:center"><span class="addr" id="addr">${esc(e)}</span><button class="btn small" id="copyAddr">Copy address</button></div><span class="hint">Attach your PDF, or paste the copied text into the email.</span>`
+    : `<span class="hint">Send your PDF or copied text to the email address your photographer gave you.</span>`;
+}
+function renderMisc(){
+  $("#customLoc").hidden = S.basics.loc !== "custom";
+  $("#pkgOtherWrap").hidden = S.tl.pkg !== "other";
+  $("#prepTravelWrap").hidden = S.tl.prepSame !== "no";
+  $("#recTravelWrap").hidden = S.tl.recSame !== "no";
+  $("#awayWrap").hidden = S.tl.social !== "away";
+  $("#dinnerWrap").hidden = S.tl.dinnerMode !== "set";
+  $("#t-ck").disabled = S.tl.dinnerMode === "set";
+  $("#xflWrap").hidden = S.tl.firstLook !== "yes";
+  $("#photoLocWrap").hidden = S.tl.firstLook !== "yes";
+  $("#studio").textContent = (STUDIO.name.trim() || "Your photographer") + " - Wedding Planning Kit";
+}
+function renderAll(){ renderMisc(); renderTimeline(); renderQuiz(); renderCeremony(); renderFamily(); renderLight(); renderSend(); }
+
+/* ===== First look quiz ===== */
+const QUIZ = [
+  {k:"q1", q:"When you picture seeing each other for the first time that day, what do you picture?", a:[["private","A quiet, private moment, just the two of us",2],["aisle","Walking down the aisle in front of everyone",-2],["either","Honestly, either sounds great",1]]},
+  {k:"q2", q:"How important is the tradition of not seeing each other before the ceremony, to you or your families?", a:[["very","Very important",-3],["little","A little",0],["not","Not important",1]]},
+  {k:"q3", q:"During social hour, would you rather…", a:[["guests","Be with our wedding party or guests, drinks in hand",2],["photos","Be off taking couple, wedding party, and family formals",-1],["nopref","No preference",0]]},
+  {k:"q4", q:"On the day, your nerves will probably be…", a:[["calmer","Much calmer once we've seen each other and can breathe together",2],["unsure","Fine, but a few quiet minutes together first would help",1],["fine","We'd rather hold onto the anticipation until the aisle",-1]]},
+  {k:"q5", q:"How much do relaxed couple portraits matter to you?", a:[["top","A top priority",2],["nice","Nice to have",1],["short","We'd rather keep portraits short",-1]]},
+  {k:"q6", q:"Would you like to share private vows or letters before the ceremony?", a:[["yes","Yes, we'd love that",1],["maybe","Maybe",0],["no","Not really",0]]}
+];
+function quizResult(){
+  const answered = QUIZ.filter(x => S.quiz[x.k]);
+  let score = 0; const reasons = [];
+  QUIZ.forEach(x => { const a = x.a.find(o => o[0] === S.quiz[x.k]); if (a) score += a[2]; });
+  const q = S.quiz;
+  if (q.q1 === "private") reasons.push({fl:true, t:"You pictured a private moment. A first look gives you exactly that."});
+  if (q.q1 === "aisle") reasons.push({fl:false, t:"You've pictured the aisle moment. That's worth protecting."});
+  if (q.q2 === "very") reasons.push({fl:false, t:"Tradition matters to you or your families."});
+  if (q.q3 === "guests") reasons.push({fl:true, t:"You want to enjoy social hour with your wedding party and guests instead of spending it on photos."});
+  if (q.q4 === "calmer" || q.q4 === "unsure") reasons.push({fl:true, t:"A few quiet minutes together before the ceremony will help settle your nerves."});
+  if (q.q5 === "top") reasons.push({fl:true, t:"Relaxed portraits are a top priority, and a first look gives them unhurried time."});
+  if (q.q6 === "yes") reasons.push({fl:true, t:"A first look is the natural time for private vows or letters."});
+  // The day itself
+  const L = light();
+  const withFL = buildTimeline({...S.tl, firstLook:"yes"}, L), noFL = buildTimeline({...S.tl, firstLook:"no"}, L);
+  const facts = [];
+  const cp = noFL.items.find(i => i.title === "Couple portraits");
+  if (L.sunset != null && cp && cp.start + cp.len > L.sunset + 10){ score += 2; facts.push({fl:true, t:"Without a first look, your couple portraits would end around " + fmt(cp.start + cp.len) + ", after your " + fmt(L.sunset) + " sunset. We'd be shooting in the dark."}); }
+  const gain = withFL.cocktailWithGuests - noFL.cocktailWithGuests;
+  if (gain >= 30){ score += 1; facts.push({fl:true, t:"A first look gives you about " + dur(gain) + " more of social hour with your guests."}); }
+  if (noFL.guestWaitExtra > 0){ score += 1; facts.push({fl:true, t:"Without one, guests wait about " + dur(noFL.guestWaitExtra) + " past social hour for your entrance."}); }
+  if (!facts.length) facts.push({fl:false, t:"Your schedule works either way. Sunset and social hour don't force the decision."});
+  let verdict, lean;
+  if (score >= 3){ verdict = "A first look is a great fit for you"; lean = "yes"; }
+  else if (score <= -4){ verdict = "Save it for the aisle"; lean = "no"; }
+  else { verdict = "Either way works, and a first look gives you more room"; lean = "either"; }
+  return {done: answered.length === QUIZ.length, count: answered.length, score, verdict, lean, reasons, facts, L};
+}
+function renderQuiz(){
+  const r = quizResult();
+  let h = `<div class="panel" style="gap:10px"><h3>${r.done ? "Our recommendation" : "Answer all six to see your result"}</h3>
+    <div class="meter"><i style="width:${r.count / QUIZ.length * 100}%"></i></div><span class="hint">${r.count} of ${QUIZ.length} answered</span></div>`;
+  if (r.done){
+    h += `<div class="note ${r.lean === "no" ? "sun" : "good"}"><strong style="font-family:var(--display);font-size:24px;font-weight:500">${esc(r.verdict)}</strong>`;
+    if (r.lean === "yes") h += `<span>Your answers and your schedule both point the same way.</span>`;
+    if (r.lean === "no") h += `<span>Your aisle moment matters most, and we'll plan the day around it.</span>`;
+    if (r.lean === "either") h += `<span>Your answers are split. A first look gives you more time, calmer portraits, and more flexibility if anything runs late, so that's where we'd lean.</span>`;
+    h += `</div>`;
+  }
+  const list = (arr, head) => arr.length ? `<div class="panel" style="gap:8px"><h3>${head}</h3>${arr.map(x => `<div style="display:flex;gap:10px;align-items:baseline"><span class="tag" style="margin:0;background:${x.fl ? "var(--pine-soft)" : "var(--accent-soft)"};color:${x.fl ? "var(--pine)" : "var(--accent)"}">${x.fl ? "first look" : "aisle"}</span><span>${esc(x.t)}</span></div>`).join("")}</div>` : "";
+  h += list(r.reasons, "What you told us");
+  h += list(r.facts, "What your day looks like" + (S.basics.date ? "" : " (example date)"));
+  if (r.done && r.lean === "no") h += `<div class="panel" style="gap:6px"><h3>How we'd make it work</h3>
+    <span>We'll photograph your solo portraits and each side's wedding party before the ceremony, then family, the full wedding party, and your couple portraits right after. If you'd still like a private moment, a "first touch" (holding hands around a door without seeing each other) is a lovely middle ground for letters or prayers.</span></div>`;
+  if (r.done){
+    const want = r.lean === "no" ? "no" : "yes";
+    const cur = S.tl.firstLook;
+    h += `<div class="chips"><button class="btn primary" data-applyfl="${want}">${cur === want ? "Already set in your timeline" : "Plan my timeline " + (want === "yes" ? "with" : "without") + " a first look"}</button><button class="btn" data-go="timeline">See the timeline</button></div>`;
+  }
+  $("#quizOut").innerHTML = h;
+}
+
+/* ===== Ceremony time finder ===== */
+function isPortraitsGold(T, L){
+  if (!T.FL || L.sunset == null || T.flS == null) return false;
+  const gStart = L.golden ?? (L.sunset - 45);
+  return T.flS + 45 >= gStart - 15 && T.flS <= L.sunset - 15;
+}
+function goldPortraitTime(L){
+  for (let m = 600; m <= 1290; m += 15){
+    const t = String(Math.floor(m/60)).padStart(2,"0") + ":" + String(m%60).padStart(2,"0");
+    const T = buildTimeline({...S.tl, ceremony: t, firstLook: "yes"}, L);
+    if (isPortraitsGold(T, L)) return T;
+  }
+  return null;
+}
+function scoreCeremony(T, L, goal){
+  let s = 0; const why = [];
+  const sp = T.items.find(i => i.title === "Sunset photos");
+  const portraitsGold = isPortraitsGold(T, L);
+  if (goal === "portraits"){
+    if (portraitsGold){ s += 40; why.push("Golden light lands on your portraits before the ceremony (sunset " + fmt(L.sunset) + ")."); }
+    else if (sp){ s += 10; why.push("Sunset photos at " + fmt(sp.start) + " during the reception."); }
+  } else {
+    if (T.sunPlaced){ s += 40; why.push("Sunset photos land right after cake at " + fmt(sp.start) + ", while the room flips."); }
+    else if (sp){ s += 28; why.push("Sunset photos at " + fmt(sp.start) + ", tucked into the reception."); }
+    else if (portraitsGold){ s += goal === "none" ? 25 : 12; why.push("Golden light lands on your portraits before the ceremony."); }
+    else s -= 15;
+  }
+  if (T.covStart < 480){ s -= 30; } else if (T.covStart < 540){ s -= 8; }
+  if (T.D < 990 || T.D > 1170) s -= 12; else why.push("Dinner at " + fmt(T.D) + ".");
+  if (T.guestWaitExtra > 0) s -= 20;
+  if (T.warn.some(w => /before the dance floor opens/.test(w.h))) s -= 30;
+  if (T.warn.some(w => /fall after coverage/.test(w.h))) s -= 10;
+  if (T.C % 30) s -= 3;
+  why.push("Coverage " + fmt(T.covStart) + " to " + fmt(T.covEnd) + ".");
+  return {s, why};
+}
+function ceremonyOptions(){
+  const L = light(); const goal = "reception";
+  const lo = toMin(S.cer.earliest) ?? 600, hi = toMin(S.cer.latest) ?? 1140;
+  const opts = [];
+  for (let m = Math.ceil(lo/15)*15; m <= hi; m += 15){
+    const t = String(Math.floor(m/60)).padStart(2,"0") + ":" + String(m%60).padStart(2,"0");
+    const T = buildTimeline({...S.tl, ceremony: t}, L);
+    const sc = scoreCeremony(T, L, goal);
+    opts.push({m, t, T, ...sc});
+  }
+  opts.sort((a,b) => b.s - a.s || Math.abs(a.m - 960) - Math.abs(b.m - 960));
+  const picks = [];
+  for (const o of opts){ if (picks.length < 3 && picks.every(p => Math.abs(p.m - o.m) >= 30)) picks.push(o); }
+  return {L, picks, all: opts.sort((a,b) => a.m - b.m)};
+}
+function renderCeremony(){
+  const {L, picks, all} = ceremonyOptions();
+  const pkgH = S.tl.pkg === "other" ? S.tl.pkgOther : S.tl.pkg;
+  $("#cerInputs").textContent = (S.basics.date ? prettyDate(S.basics.date) : "Example date " + prettyDate(EXAMPLE_DATE)) + " · " + L.place.label + " · sunset " + (L.sunset != null ? fmt(L.sunset) : "n/a") + " · " + (S.tl.firstLook === "yes" ? "first look" : "no first look") + " · " + (S.tl.cerLen) + " min ceremony · " + pkgH + " hr coverage. Change these on the Start and Timeline tabs.";
+  if (!picks.length){ $("#cerOut").innerHTML = `<div class="note warn"><strong>No times fit that window</strong><span>Widen your earliest and latest times.</span></div>`; return; }
+  let h = "";
+  const goal = "reception";
+  if (goal === "portraits" && !picks.some(p => isPortraitsGold(p.T, L))){
+    const g = goldPortraitTime(L);
+    h += `<div class="note sun"><strong>Golden light before the ceremony is tough on your date</strong><span>${S.tl.firstLook !== "yes" ? "It needs a first look, since that's when we take your portraits before the ceremony. " : ""}${g && g.C <= 1170 ? "Your portraits would land in golden hour with a ceremony around " + fmt(g.C) + ", which puts dinner at " + fmt(g.D) + ". " : "With sunset at " + fmt(L.sunset) + ", it would take an evening ceremony to get golden light on your portraits first. "}Our picks below give you sunset photos during the reception instead.</span></div>`;
+  }
+  picks.forEach((p,i) => {
+    const cur = S.tl.ceremony === p.t;
+    h += `<div class="panel" style="gap:8px;${i === 0 ? "border-color:var(--accent)" : ""}">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+        <div><h3>${i === 0 ? "Our top pick" : "Also great"}</h3><div style="font-family:var(--display);font-size:${i === 0 ? 40 : 30}px;line-height:1.1">${fmt(p.m)}</div></div>
+        <button class="btn ${i === 0 ? "primary" : ""}" data-usecer="${p.t}">${cur ? "In your timeline" : "Use this time"}</button>
+      </div>
+      ${p.why.map(w => `<span class="hint" style="font-size:13.5px">${esc(w)}</span>`).join("")}
+    </div>`;
+  });
+  // Mini scan of all times
+  const max = Math.max(...all.map(o => o.s)), min = Math.min(...all.map(o => o.s));
+  h += `<div class="panel" style="gap:8px"><h3>Every start time we tested</h3><div class="months-wrap"><div class="months" style="grid-template-columns:repeat(${all.length},minmax(0,1fr));height:120px;min-width:${Math.max(430, all.length*14)}px">` +
+    all.map(o => `<div class="mo ${picks.some(p => p.m === o.m) ? "cur" : ""}" title="${fmt(o.m)}"><i style="height:${Math.max(4,(o.s - min)/((max - min) || 1)*90)}px"></i><span style="font-size:9.5px">${o.m % 60 === 0 ? fmt(o.m).replace(":00","").replace(" PM","p").replace(" AM","a") : ""}</span></div>`).join("") +
+    `</div></div><span class="hint">Taller means a better fit. Highlighted bars are our picks.</span></div>`;
+  h += `<div class="note sun"><strong>Rule of thumb</strong><span>With your setup, a ceremony about 3½ hours before sunset puts sunset photos right after dinner. For your date that's around ${fmt(Math.round((L.sunset - 210)/15)*15)}.</span></div>`;
+  $("#cerOut").innerHTML = h;
+}
+function buildQuizForm(){
+  $("#quizForm").innerHTML = QUIZ.map((x,i) => `
+    <div class="fld"><span class="lab">${i+1}. ${esc(x.q)}</span>
+      <div class="seg" style="flex-direction:column;align-items:flex-start">
+        ${x.a.map(o => `<label><input type="radio" name="${x.k}" value="${o[0]}" data-k="quiz.${x.k}"><span>${esc(o[1])}</span></label>`).join("")}
+      </div></div>`).join("");
+}
+
+/* ===== Tabs ===== */
+const TABS = ["start","firstlook","ceremony","timeline","family","light","tips","send"];
+function show(tab){
+  if (!TABS.includes(tab)) tab = "start";
+  document.querySelectorAll("[data-panel]").forEach(p => p.hidden = p.dataset.panel !== tab);
+  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === tab ? "true" : "false"));
+  try { sessionStorage.setItem(KEY + "-tab", tab); } catch(e){}
+}
+
+/* ===== Events ===== */
+function onField(e){
+  const el = e.target; const k = el.dataset && el.dataset.k; if (!k) return;
+  let v = el.type === "checkbox" ? el.checked : el.value;
+  if (el.type === "radio" && !el.checked) return;
+  setPath(k, v); save(); renderAll();
+}
+document.addEventListener("input", onField);
+document.addEventListener("change", e => { if (e.target.type === "radio" || e.target.type === "checkbox" || e.target.tagName === "SELECT") onField(e); });
+document.addEventListener("click", async e => {
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.dataset.tab){ show(t.dataset.tab); return; }
+  if (t.dataset.applyfl){ S.tl.firstLook = t.dataset.applyfl; save(); hydrate(); renderAll(); return; }
+  if (t.dataset.usecer){ S.tl.ceremony = t.dataset.usecer; save(); hydrate(); renderAll(); return; }
+  if (t.dataset.go){ show(t.dataset.go); window.scrollTo({top:0}); return; }
+  if (t.dataset.hide){ S.fam.hidden.push(t.dataset.hide); save(); renderAll(); return; }
+  if (t.dataset.unhide){ S.fam.hidden = S.fam.hidden.filter(k => k !== t.dataset.unhide); save(); renderAll(); return; }
+  if (t.id === "addGroupBtn"){ const inp = $("#addGroup"); const v = inp.value.trim(); if (v){ S.fam.custom.push(v); save(); renderAll(); $("#addGroup").focus(); } return; }
+  if (t.id === "copyBtn") return copyText(summaryText(), "Copied. Paste it into an email to us.", () => { const r = document.createRange(); r.selectNodeContents($("#summary")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); });
+  if (t.id === "copyTop"){ const done = m => { const el = $("#topToast"); el.textContent = m; setTimeout(() => el.textContent = "", 3000); };
+    try { navigator.clipboard.writeText(STUDIO.email).then(() => done("Copied."), () => { selectEl("#topAddr"); done("Selected. Press Ctrl+C or ⌘C."); }); } catch(err){ selectEl("#topAddr"); done("Selected. Press Ctrl+C or ⌘C."); }
+    return; }
+  if (t.id === "copyAddr") return copyText(STUDIO.email, "Address copied.", () => { const r = document.createRange(); r.selectNodeContents($("#addr")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); });
+  if (t.id === "pdfBtn") return makePdf();
+  if (t.id === "resetBtn"){
+    $("#resetArea").innerHTML = `<span>Clear every answer on this page?</span><button class="btn small" id="resetYes" style="color:var(--warn)">Yes, clear it</button><button class="btn small ghost" id="resetNo">Keep my answers</button>`; return; }
+  if (t.id === "resetNo"){ $("#resetArea").innerHTML = `<button class="btn small ghost" id="resetBtn">Clear all my answers</button>`; return; }
+  if (t.id === "resetYes"){ S = merge(DEFAULTS, null); S.fam.sides = [sideDefault(), sideDefault()]; try{ localStorage.removeItem(KEY); }catch(err){} hydrate(); renderAll(); $("#resetArea").innerHTML = `<button class="btn small ghost" id="resetBtn">Clear all my answers</button>`; toast("Cleared."); return; }
+});
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.id === "addGroup"){ e.preventDefault(); $("#addGroupBtn").click(); } });
+function selectEl(sel){ const r = document.createRange(); r.selectNodeContents($(sel)); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+function toast(msg){ const el = $("#sendToast"); el.textContent = msg; clearTimeout(toast.t); toast.t = setTimeout(() => el.textContent = "", 4000); }
+function copyText(txt, ok, fallback){
+  try {
+    navigator.clipboard.writeText(txt).then(() => toast(ok), () => { fallback(); toast("Selected. Press Ctrl+C or ⌘C to copy."); });
+  } catch(err){ fallback(); toast("Selected. Press Ctrl+C or ⌘C to copy."); }
+}
+
+/* ===== PDF ===== */
+let downloads = null, inClaude = false;
+async function makePdf(){
+  if (!window.jspdf || (inClaude && !downloads)) return;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({unit:"pt", format:"letter"});
+  const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 54; let y = M;
+  const need = h => { if (y + h > H - M){ doc.addPage(); y = M; } };
+  const text = (s, size, style, color, indent) => { doc.setFont("helvetica", style || "normal"); doc.setFontSize(size); doc.setTextColor(...(color || [30,35,33])); const ls = doc.splitTextToSize(String(s), W - 2*M - (indent||0)); ls.forEach(l => { need(size*1.35); doc.text(l, M + (indent||0), y); y += size*1.35; }); };
+  const gap = n => y += n;
+  const L = light(); const T = buildTimeline(S.tl, L); const fam = famGroups().filter(g => !S.fam.hidden.includes(g.key));
+  text((STUDIO.name.trim() || "Wedding planning kit").toUpperCase(), 9, "bold", [163,95,23]); gap(4);
+  text(S.basics.a || S.basics.b ? nameA() + " & " + nameB() : "Our wedding plan", 24, "bold"); gap(2);
+  text((S.basics.date ? prettyDate(S.basics.date) : "Date not set") + "  ·  " + L.place.label, 11, "normal", [90,100,95]);
+  text("Coverage " + fmt(T.covStart) + " – " + fmt(T.covEnd) + " (" + T.pkg + " hrs)  ·  First look: " + (T.FL ? "yes" : "no") + (L.sunset != null ? "  ·  Sunset " + fmt(L.sunset) : ""), 11, "normal", [90,100,95]);
+  gap(14); text("Timeline", 15, "bold"); gap(4);
+  T.items.forEach(i => {
+    need(16); const after = i.start >= T.covEnd && i.kind !== "end";
+    doc.setFont("courier","normal"); doc.setFontSize(10); doc.setTextColor(after ? 150 : 30, after ? 150 : 35, after ? 150 : 33); doc.text(fmt(i.start), M, y);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(10.5); doc.text(i.title + (i.len ? "  (" + dur(i.len) + ")" : "") + (after ? "  · after coverage" : ""), M + 70, y); y += 14;
+    if (i.tip) text(i.tip, 9, "normal", [110,118,114], 70);
+    gap(3);
+  });
+  T.warn.forEach(w => { text("Note: " + w.h + ". " + w.b, 9.5, "italic", [155,58,40]); });
+  if (S.tl.notes.trim()){ gap(4); text("Our notes: " + S.tl.notes.trim(), 10); }
+  gap(14); text("Family formals (" + fam.length + " groups)", 15, "bold"); gap(2);
+  if (S.fam.wrangler.trim()) text("Family wrangler: " + S.fam.wrangler.trim(), 10, "normal", [90,100,95]);
+  let sec = null, n = 0;
+  fam.forEach(g => { if (g.sec !== sec){ sec = g.sec; gap(6); text(sec.toUpperCase(), 8.5, "bold", [90,100,95]); } n++; text(n + ".  " + g.title + (g.who ? "  —  " + g.who : ""), 10.5); if (g.note) text(g.note, 9, "italic", [44,90,81], 18); });
+  const fname = "wedding-plan" + (S.basics.a || S.basics.b ? "-" + (nameA() + "-" + nameB()).toLowerCase().replace(/[^a-z0-9]+/g,"-") : "") + ".pdf";
+  try {
+    if (inClaude) await downloads.save({filename: fname, data: doc.output("arraybuffer")});
+    else doc.save(fname);
+    toast("PDF saved. Attach it to an email to us.");
+  } catch(err){
+    if (err && err.code === "declined") toast("Download cancelled.");
+    else if (err && (err.code === "unavailable" || err.code === "not_granted")) { $("#pdfBtn").hidden = true; toast("Downloads aren't available here. Use Copy as text instead."); }
+    else toast("Couldn't create the PDF. Use Copy as text instead.");
+  }
+}
+(async () => {
+  const framed = (() => { try { return window.self !== window.top; } catch(e){ return true; } })();
+  for (let n = 0; n < (framed ? 50 : 3) && !(window.claude && window.claude.use); n++) await new Promise(r => setTimeout(r, 100));
+  try { if (window.claude && window.claude.use) downloads = await window.claude.use("downloads"); } catch(e){ downloads = null; }
+  inClaude = !!(window.claude && window.claude.use);
+  $("#pdfBtn").hidden = !(window.jspdf && (!inClaude || downloads));
+})();
+
+/* ===== Boot ===== */
+buildStatic(); hydrate(); renderAll();
+let startTab = (location.hash || "").replace("#","");
+if (!TABS.includes(startTab)){ try { startTab = sessionStorage.getItem(KEY + "-tab") || "start"; } catch(e){ startTab = "start"; } }
+show(startTab);
+</script>
+
+</body>
+</html>
